@@ -21,6 +21,7 @@ wheels/
 *.egg
 MANIFEST
 .idea/
+ImageClassification/data
 
 # Virtual environment
 venv/
