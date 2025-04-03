@@ -325,6 +325,7 @@ def main(
         #Log
         pbar.update()
         pbar.set_postfix(
+            desc='Train',
             loss=f"{batch_loss:.2f}",
             accuracy=f"{batch_accuracy:.2f}",
             step=step + 1,
