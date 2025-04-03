@@ -351,8 +351,8 @@ def main(
 
     pbar.close()
 
-if __name__ == '__main__':
-    main(**parse_args())
+# if __name__ == '__main__':
+#     main(**parse_args())
 
 from pathlib import Path
 class InferenceDataset(Dataset):
@@ -377,7 +377,7 @@ def inference_collate_batch(batch):
     return feat_paths,torch.stack(mels)
 
 import csv
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 def parse_args():
 	"""arguments"""
