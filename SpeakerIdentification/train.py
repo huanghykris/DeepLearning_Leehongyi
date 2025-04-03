@@ -264,7 +264,7 @@ def valid(dataloader,model,criterion,device):
 # Main function
 def parse_args():
     config = {
-        "data_dir": "./Dataset",
+        "data_dir": ".\\data\\Dataset",
         "save_path": "model.ckpt",
         "batch_size": 32,
         "n_workers": 8,
@@ -381,9 +381,9 @@ from tqdm.notebook import tqdm
 def parse_args():
 	"""arguments"""
 	config = {
-		"data_dir": "./Dataset",
-		"model_path": "./model.ckpt",
-		"output_path": "./output.csv",
+		"data_dir": ".\\data\\Dataset",
+		"model_path": ".\\model.ckpt",
+		"output_path": ".\\output.csv",
 	}
 
 	return config
