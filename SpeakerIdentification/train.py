@@ -39,7 +39,7 @@ class myDataset(Dataset):
         # Loading the mapping from speaker name to their corresponding id
         mapping_path = os.path.join(self.data_dir,'mapping.json')
         mapping = json.load(open(mapping_path,'r'))
-        self.speaker2id = mapping['speakers2id']
+        self.speaker2id = mapping['speaker2id']
 
         # Load metadata of traing data
         metadata_path = os.path.join(self.data_dir,'metadata.json')
@@ -52,31 +52,31 @@ class myDataset(Dataset):
             for utterances in metadata[speaker]:
                 self.data.append([utterances["feature_path"],self.speaker2id[speaker]])
 
-        def __len__(self):
-            return len(self.data)
+    def __len__(self):
+        return len(self.data)
 
-        def __getitem__(self,index):
-            feature_path,speaker_id = self.data[index]
-            # 加载预处理好的梅尔频谱特征
-            mel = torch.load(os.path.join(self.data_dir,feature_path))
+    def __getitem__(self,index):
+        feature_path,speaker_id = self.data[index]
+        # 加载预处理好的梅尔频谱特征
+        mel = torch.load(os.path.join(self.data_dir,feature_path))
 
-            # 将梅尔频谱切分为固定长度的片段
-            if len(mel) > self.segment_len:
-                # 如果特征长度大于目标长度，随机选取起始点
-                start = random.randint(0,len(mel) - self.segment_len)
-                # 截取从start开始的segement_len长度的片段
-                mel = torch.FloatTensor(mel[start:start+self.segment_len])
-            else:
-                # 如果特征长度不足，直接使用全部特征
-                mel = torch.FloatTensor(mel)
+        # 将梅尔频谱切分为固定长度的片段
+        if len(mel) > self.segment_len:
+            # 如果特征长度大于目标长度，随机选取起始点
+            start = random.randint(0,len(mel) - self.segment_len)
+            # 截取从start开始的segement_len长度的片段
+            mel = torch.FloatTensor(mel[start:start+self.segment_len])
+        else:
+            # 如果特征长度不足，直接使用全部特征
+            mel = torch.FloatTensor(mel)
 
-            # 将说话人ID转换为LongTensor类型（用于后续的损失计算）
-            speaker = torch.LongTensor([speaker_id]).long()
-            # 返回梅尔频谱和对应的说话人ID
-            return mel, speaker
+        # 将说话人ID转换为LongTensor类型（用于后续的损失计算）
+        speaker = torch.LongTensor([speaker_id]).long()
+        # 返回梅尔频谱和对应的说话人ID
+        return mel, speaker
 
-        def get_speaker_num(self):
-            return self.speaker_num
+    def get_speaker_num(self):
+        return self.speaker_num
 
 def collate_batch(batch):
     mel,speaker = zip(*batch)
@@ -264,7 +264,7 @@ def valid(dataloader,model,criterion,device):
 # Main function
 def parse_args():
     config = {
-        "data_dir": ".\\data\\Dataset",
+        "data_dir": ".\\Dataset",
         "save_path": "model.ckpt",
         "batch_size": 32,
         "n_workers": 8,
@@ -304,7 +304,7 @@ def main(
 
     pbar = tqdm(total=valid_steps,ncols=0,desc='Train',unit=' step')
 
-    for step in range(valid_steps):
+    for step in range(total_steps):
         # Get data
         try:
             batch = next(train_iterator)
@@ -381,7 +381,7 @@ from tqdm.notebook import tqdm
 def parse_args():
 	"""arguments"""
 	config = {
-		"data_dir": ".\\data\\Dataset",
+		"data_dir": ".\\Dataset",
 		"model_path": ".\\model.ckpt",
 		"output_path": ".\\output.csv",
 	}
