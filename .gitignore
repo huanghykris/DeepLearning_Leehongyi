@@ -23,6 +23,8 @@ MANIFEST
 .idea/
 ImageClassification/data
 SpeakerIdentification/Dataset
+PhonemeClassification/libriphone
+
 
 # Virtual environment
 venv/
