@@ -24,7 +24,7 @@ MANIFEST
 ImageClassification/data
 SpeakerIdentification/Dataset
 PhonemeClassification/libriphone
-
+MachineTranslation/data
 
 # Virtual environment
 venv/
