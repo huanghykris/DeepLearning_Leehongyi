@@ -1,7 +1,92 @@
-# Coivd_19-Prediction
-Regression prediction model
+# COVID-19 病例预测模型
 
-Objectives:
-* Solve a regression problem with deep neural networks (DNN).
-* Understand basic DNN training tips.
-* Familiarize yourself with PyTorch.
+## 项目概述
+
+本项目实现了一个基于PyTorch的神经网络模型，用于预测COVID-19病例数。该模型接收多种特征作为输入，输出预测的病例数量。
+
+## 主要功能
+
+- 数据加载与预处理
+- 特征选择
+- 训练集-验证集划分
+- 神经网络实现
+- 带早停机制的训练过程
+- 训练进度可视化
+- 模型保存
+
+## 环境要求
+
+- Python 3.x
+- PyTorch
+- NumPy
+- pandas
+- tqdm
+- TensorBoard (用于可视化)
+
+## 配置参数
+
+模型可通过`config`字典进行配置：
+
+```python
+config = {
+    'seed': 5201314,            # 随机种子，保证可重复性
+    'select_all': True,         # 是否使用所有特征
+    'valid_ratio': 0.2,         # 验证集比例
+    'n_epochs': 3000,           # 最大训练轮数
+    'batch_size': 256,          # 批处理大小
+    'learning_rate': 1e-5,      # 学习率
+    'early_stop': 400,          # 早停耐心值
+    'save_path': './models/model.ckpt'  # 模型保存路径
+}
+```
+
+## 数据准备
+
+1. 将训练数据放入`./data/covid.train_new.csv`
+2. 将测试数据放入`./data/covid.test_un.csv`
+3. 数据将自动划分为训练集和验证集
+
+## 模型结构
+
+神经网络包含以下层：
+1. 输入层（大小取决于选择的特征数）
+2. 16个单元的隐藏层（ReLU激活函数）
+3. 8个单元的隐藏层（ReLU激活函数）
+4. 1个单元的输出层
+
+## 训练过程
+
+训练模型步骤：
+1. 运行脚本
+2. 训练进度将通过进度条显示
+3. 最佳模型将自动保存
+4. 如果验证损失长时间不改善，训练将提前停止
+
+## 评估指标
+
+训练过程中使用均方误差(MSE)作为验证集的评估指标。
+
+## 预测功能
+
+对新数据进行预测：
+1. 加载保存的模型
+2. 使用`predict()`函数处理测试数据
+
+## 文件结构
+
+```
+./
+├── data/
+│   ├── covid.train_new.csv    # 训练数据
+│   └── covid.test_un.csv      # 测试数据
+├── models/                    # 模型保存目录
+└── (主脚本文件).py            # 主Python文件
+```
+
+## 注意事项
+
+- 代码包含固定随机种子的可重复性措施
+- 如果可用将自动使用GPU加速
+- 训练进度可通过TensorBoard可视化
+- 特征选择可通过修改`select_feat`函数调整
+- 模型结构可在`My_Model`类中修改
